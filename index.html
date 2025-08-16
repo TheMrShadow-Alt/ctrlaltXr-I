@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Bypass | By Shadow</title>
+</head>
+<style>html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  text-align: center;
+}
+
+h1 {
+  margin: 20px 0;
+}
+#input {
+  width: 80%;
+  height: 200px;
+  padding: 12px;
+  margin: 20px auto;
+  display: block;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  background-color: #282c34;
+  color: #abb2bf;
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+/* Syntax highlighting */
+.keyword { color: #c678dd; }
+.string { color: #98c379; }
+.number { color: #d19a66; }
+.function { color: #61afef; }
+.comment { color: #5c6370; }
+.operator { color: #56b6c2; }
+
+#run {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+}
+
+#console {
+  width: 80%;
+  height: 150px;
+  margin: 20px auto;
+  padding: 12px;
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: left;
+  overflow-y: auto;
+  font-family: monospace;
+}
+</style>
+<body>
+  <h1>Bypass By Shadow</h1>
+  <textarea id="input" placeholder="Enter JS Here"></textarea>
+  <button id="run">Run</button>
+  <pre id="console"></pre>
+  <script>const input = document.getElementById('input');
+const runButton = document.getElementById('run');
+const consoleOutput = document.getElementById('console');
+
+// Override console.log
+const originalConsole = console.log;
+console.log = function(...args) {
+  originalConsole.apply(console, args);
+  consoleOutput.textContent += args.join(' ') + '\n';
+};
+
+function highlightSyntax(code) {
+  return code
+    .replace(/\b(const|let|var|function|return|if|else|for|while)\b/g, '<span class="keyword">$1</span>')
+    .replace(/(["'])(.*?)\1/g, '<span class="string">$&</span>')
+    .replace(/\b(\d+)\b/g, '<span class="number">$1</span>')
+    .replace(/\b(console|log|Math|Date)\b/g, '<span class="function">$1</span>')
+    .replace(/\/\/.*/g, '<span class="comment">$&</span>')
+    .replace(/[+\-*/%=<>!&|]+/g, '<span class="operator">$&</span>');
+}
+
+input.addEventListener('input', () => {
+  const code = input.value;
+  const highlighted = highlightSyntax(code);
+  input.innerHTML = highlighted;
+});
+
+runButton.addEventListener('click', () => {
+  consoleOutput.textContent = ''; // Clear previous output
+  try {
+    eval(input.value);
+  } catch (error) {
+    console.log('Error:', error.message);
+  }
+});
+</script>
+</body>
+
+</html>
